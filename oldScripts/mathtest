@@ -1,0 +1,39 @@
+#!/bin/bash
+
+n=5          # number of posts per file/page
+min=3        # min posts allowed per file/page
+
+# we need to get number of #fullloops and a number of #postsinlastloop
+
+all="$1"
+
+# echo "$all"
+# if all <= n, the we end everything here and set #fullloops to 1 and #postsinlastloop to 0
+
+fullloops=$((all / n))                       # a start value for $fullloops
+
+    if [ "$n" -ge "$all" ]; then
+    fullloops=0
+    postsinlastloop="$all"
+    echo "single loop, we end here"
+    
+    else
+    remainder=$((all % n))
+    echo "$remainder"                        # if remainder < min then fullloops=fullloops-n
+        if [ "$remainder" -lt "$min" ]; then
+        echo "remainder is to small"
+        fullloops=$((fullloops - 1))
+        postsinlastloop=$((remainder + n))
+        
+        else # remainder is ok
+        echo "remainder probably ok"
+        postsinlastloop="$remainder"
+        fi
+
+    fi
+
+echo "..............................."
+echo "fullloops = $fullloops"
+echo "postsinlastloop = $postsinlastloop"
+
+

@@ -1,0 +1,181 @@
+#!/bin/bash
+
+# The idea here is that older posts are in htm files with lower numbers, like
+# oldest n posts will be in 0.htm
+
+# The leftovers are in the latest htm.file, so that older stuff will:
+# a. keep the url structure (unless you insert something)
+# b. only the latest posts will have to be generated (unless you insert something) 
+# ^ a wish at least
+
+shopt -s nullglob # see http://mywiki.wooledge.org/NullGlob
+
+# config
+n=5          # number of posts per file/page
+min=5        # min posts allowed per file/page
+
+# check config
+if (( min > n )) ; then
+echo "config error, min must be smaller or equal to n" ; exit
+fi
+
+# input arguments to array
+# if there were no arguments passed, try to glob *.md, if after
+# all that array is still empty, exit with some message
+
+posts=("$@") ; (($#)) || posts=(*.md) ; ((${#posts[@]})) || { echo >&2 "noone here? exiting..." ; exit 1; }                                                                             
+
+all="${#posts[@]}"
+echo "$all is the number of the posts" 
+
+### math start
+# if all <= n, the we end everything here and set #fullloops to 1 and #postsinlastloop to 0
+
+fullloops=$((all / n))                       # a start value for $fullloops
+
+    if (( n >= all )) ; then 
+    fullloops=0
+    postsinlastloop=all
+    echo "single loop, we end here"
+    
+    else
+    remainder=$((all % n))
+    echo "remainder = $remainder"            # if remainder < min then fullloops=fullloops-1
+        if (( remainder < min )); then       # some sort of fancy loop would be needed here
+        echo "remainder is to small"         # if we are to allow cases where min > n 
+        fullloops=$((fullloops - 1))
+        postsinlastloop=$((remainder + n))
+        
+        else # remainder is ok
+        echo "remainder probably ok"
+        postsinlastloop=remainder
+        fi
+
+    fi
+
+echo "..............................."
+echo "fullloops = $fullloops"
+echo "postsinlastloop = $postsinlastloop"
+### math end
+
+ 
+
+
+
+# all pages, but index 
+
+# determine how many posts we need here
+
+hereposts=$((fullloops * n))
+echo "$hereposts hereposts" ; echo
+
+for ((i=0; i < hereposts; i+=n)); do
+
+    echo "$i.htm"
+    echo "header" # header html
+    
+    cat header > "$i.htm" ##
+
+    thisloop=( "${posts[@]:i:n}" )
+
+        # each post
+        echo "${#thisloop[@]} posts in this file" # debug
+
+        for ((b=${#thisloop[@]}-1; b>=0; b--)); do    # reverse loop over array
+            if ((b != n -1)) ; then # skip divider before first post
+            echo "----------------divider" # divider html
+            cat divider >> "$i.htm" ##
+            fi
+            echo "   ${thisloop[b]}"  # echo each member
+            
+            printf '<h1>%s</h1>' "${thisloop[b]}" >> "$i.htm" ## post title comes from filename
+            pandoc "${thisloop[b]}" >> "$i.htm" ##
+            
+        done
+
+    # navigation here
+    printf '<h1>' >> "$i.htm" ## navigation start tag
+    
+    if ((i != 0)) ; then # math bug was here
+    echo -n "<"; expr "$i" - "$n"; 
+
+    
+    printf '<a href="%s.htm">&lt</a>' "$(( i - n ))" >> "$i.htm" ##
+    
+    # &lt; &gt;
+    
+    echo "<"
+    fi
+    
+    # echo " i = $i ,  $((all - postsinlastloop - n)) "
+    
+    if ((i != all - postsinlastloop - n)) ; then 
+    echo -n ">"; expr "$i" + "$n";   
+    
+    printf '<a href="%s.htm">&gt</a>' "$(( i + n ))" >> "$i.htm" ##
+                
+    else
+    echo ">index";                     # if we are at the last batch
+                                       # then link to index
+
+    printf '<a href="index.htm">&gt</a>' >> "$i.htm" ##
+    
+    fi
+    
+    printf '</h1>' >> "$i.htm" ## navigation end tag
+    
+    echo "footer" ; echo ; echo # footer html 
+    
+    cat footer >> "$i.htm" ##
+
+done
+
+
+# last posts here into page index.htm
+
+# echo "postsleft for index.htm = $postsinlastloop" ; echo
+
+
+    echo "index.htm"
+    echo "header" # header html
+    
+    cat header > "index.htm" ##
+
+    thisloop=( "${posts[@]:i:postsinlastloop}" )
+
+        # each post
+        echo "${#thisloop[@]} posts in this file" # debug
+
+        for ((b=${#thisloop[@]}-1; b>=0; b--)); do    # reverse loop over array
+            if ((b != postsinlastloop -1)) ; then # skip divider before first post
+            echo "----------------divider" # divider html
+            cat divider >> "index.htm" ##
+            fi
+            echo "   ${thisloop[b]}"  # echo each member
+            pandoc "${thisloop[b]}" >> "index.htm" ##
+            
+        done
+
+            
+
+
+
+
+    # navigation here
+    if ((fullloops != 0)) ; then
+    echo -n "<"; expr "$i" - "$n"; 
+
+    printf '<a href="%s.htm">&lt</a>' "$(( i - n ))" >> "index.htm" ##
+    
+    fi
+    
+    echo "footer" ; echo ; echo # footer html 
+    
+    cat footer >> "index.htm" ##
+    
+# end last posts here into index.htm
+
+
+
+# { echo a ; echo b ; echo c ; } > file
+# printf '<a href="%s.htm">&gt</a>' "$(( expr ))"

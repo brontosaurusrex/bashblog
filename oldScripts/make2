@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cat header
+
+# ${parameter:offset:length}
+
+for file in $(find *.md | sort -r)
+do
+
+    cat divider
+    pandoc "$file"
+
+done
+
+cat footer

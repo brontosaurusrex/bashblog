@@ -1,0 +1,43 @@
+#!/bin/bash
+
+n=5          # number of posts per file/page
+min=4        # min posts allowed per file/page
+
+if (( min > n )) ; then
+echo "config error, min must be smaller or equal to n" ; exit
+fi
+
+# we need to get number of #fullloops and a number of #postsinlastloop
+
+all="$1"
+
+# echo "$all"
+# if all <= n, the we end everything here and set #fullloops to 1 and #postsinlastloop to 0
+
+fullloops=$((all / n))                       # a start value for $fullloops
+
+    if (( n >= all )) ; then 
+    fullloops=0
+    postsinlastloop=all
+    echo "single loop, we end here"
+    
+    else
+    remainder=$((all % n))
+    echo "remainder = $remainder"            # if remainder < min then fullloops=fullloops-1
+        if (( remainder < min )); then       # some sort of fancy loop would be needed here
+        echo "remainder is to small"         # if we are to allow cases where min > n 
+        fullloops=$((fullloops - 1))
+        postsinlastloop=$((remainder + n))
+        
+        else # remainder is ok
+        echo "remainder probably ok"
+        postsinlastloop=remainder
+        fi
+
+    fi
+
+echo "..............................."
+echo "fullloops = $fullloops"
+echo "postsinlastloop = $postsinlastloop"
+
+

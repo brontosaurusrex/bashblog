@@ -1,0 +1,16 @@
+#!/bin/bash
+
+posts0=(*.md)          
+posts=($(for each in "${posts0[@]}"; do echo "$each"; done | sort -r))
+
+# posts=$(printf %s\\0 *.md | sort -rz)
+
+n=2                   # number of files per command line; adjust to taste
+for ((i=0; i < "${#posts[@]}"; i+=n)); do
+
+        echo "${posts[@]:i:n}" 
+        
+done
+
+
+# printf %s\\0 *.md | sort -rz

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+part1=$(date +"%y%m%d")
+part2=$(date +"%H%M%S")
+
+while [ $# -gt 0 ]; do
+
+echo "${part1}_${part2}_$1.md"
+touch "${part1}_${part2}_$1.md"
+
+part2=$(printf '%06d\n' "$((10#$part2+1))")  
+# adding a counter here, so that each argument=post will get in alphabet
+# this is not done in the clock aware format, so seconds like 60, 70, ect
+# are possible
+
+    shift
+done

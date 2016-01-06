@@ -1,0 +1,101 @@
+        if [ ${#thisloop[@]} -lt "$minposts" ]
+        then 
+        echo "less than $minposts here"
+        i="$i"-"$n"              # one back
+        n="$n"+"${#thisloop[@]}" # new n
+        
+        fi
+        
+        
+        
+        ---------
+        
+        
+# various notes
+#
+# bash lib;
+# https://github.com/lhunath/scripts/blob/master/bash/bashlib/bashlib     
+#
+# thanks to; 
+# good people of freenode/#bash 
+
+
+
+basic one: if i have "howmany" posts and i     
+would like to have "n" posts per file, but     
+last file must have at least "min" posts       
+(when" howmany "> "min"), how would i approach 
+this?                                          
+
+n=5
+min=3
+
+---------
+
+all=13
+
+expr 13 / 5 = 2
+expr 13 % 5 = 3 # which is ok, since this is allowed min
+
+5 5 3
+
+all=12
+expr 12 / 5 = 2 # loops
+expr 12 % 5 = 2 # not ok, since this is less than $min, now we must take away a loop
+and add n to the 2 , so
+2+n= 7
+and
+fullloop=1
+
+
+5 7
+
+all=17
+5 5 7
+
+all=11
+5 6
+
+all=4
+4
+
+all=2
+2
+
+
+
+
+
+
+if [ "$#" -eq 0 ]; then 
+  posts=(*.md)    # do a *.md to array if input is empty
+else
+  posts=( "$@" )  # else convert arguments to array
+fi
+
+if ((${#posts[@]} == 0)) ; then
+echo "noone here? exiting ..."; exit
+fi
+
+
+
+
+
+
+
+
+
+part2=$(date +"%H%M%S") ; echo "$part2" ; part2=$(printf '%06d\n' "$((10#$part2+1))") ; echo "$part2"
+
+
+
+
+
+
+
+
+
+
+
+
+emg: example ./new 1 2 3 should generate 00date_00time_filename_1.md 00date_00time_filename_2.md 00date_00time_filename_3.md

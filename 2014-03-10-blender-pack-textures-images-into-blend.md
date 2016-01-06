@@ -1,0 +1,1 @@
+<http://www.blenderartists.org/forum/showthread.php?311226-How-to-pack-texture-with-blend-file&p=2477297&viewfull=1#post2477297>

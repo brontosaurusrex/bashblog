@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# The idea here is that older posts are in htm files with lower numbers, like
+# oldest n posts will be in 0.htm
+
+# The leftovers are in the latest htm.file, so that older stuff will:
+# a. keep the url structure (unless you insert something)
+# b. only the latest posts will have to be generated (unless you insert something)
+
+# the problem: leftovers can be 1 or 2 and so the entry page will look silly
+
+# config
+n=5    # number of files per command line
+
+# input arguments to array
+if [ "$#" -eq 0 ]; then 
+  posts=(*.md)    # do a *.md to array if input is empty
+else
+  posts=( "$@" )  # else convert arguments to array
+fi
+
+for ((i=0; i < "${#posts[@]}"; i+=n)); do
+
+    echo "$i.htm ------------------------"
+    echo "header" # header html
+
+    thisloop=( "${posts[@]:i:n}" )
+    # echo "$thisloop" #debug
+        
+        # each post
+        echo "${#thisloop[@]} posts" # debug
+        for ((b=${#thisloop[@]}-1; b>=0; b--)); do    # reverse loop over array
+            echo "----------------" # divider html
+         
+            echo "   ${thisloop[b]}"  # echo each member
+       
+            
+        done
+    # navigation here
+    # if i !< n
+    echo -n "<"; expr "$i" - "$n";
+    # if i !> posts/n ?
+    echo -n ">"; expr "$i" + "$n";
+    
+    echo "footer" # footer html
+    echo
+    echo
+    echo
+
+        
+done
+
+# various notes
+#
+# bash lib;
+# https://github.com/lhunath/scripts/blob/master/bash/bashlib/bashlib     
+#
+# thanks to; 
+# good people of freenode/#bash       

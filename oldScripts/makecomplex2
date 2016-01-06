@@ -1,0 +1,31 @@
+#!/bin/bash
+
+n=5                   # number of files per command line; adjust to taste
+
+readarray -t posts < <(printf %s\\n *.md | sort )
+
+numberofposts="${#posts[@]}"
+filename=$numberofposts
+
+for ((i=$numberofposts; i > 0; i-=n)); do
+
+
+        filename=$(expr $filename - $n)
+        
+        echo "$filename.htm ------------------------"
+
+        echo "    head"
+        # each post
+        for b in "${posts[@]:i:n}"; do
+            echo "---divider---"
+            echo "$b" 
+        done
+        echo "    foot"
+        echo
+        
+       # cat "${posts[@]:i:n}"
+        
+done
+
+
+

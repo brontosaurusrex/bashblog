@@ -1,0 +1,16 @@
+#!/bin/bash
+
+
+while [ -n "$1" ]
+  do
+    echo "$1 $2 $3 $4 $5"
+    
+    shift 5
+    if [ $? -ne 0 ]
+      then
+        break
+    fi
+
+    echo "remain $#"
+
+done

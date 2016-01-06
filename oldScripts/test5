@@ -1,0 +1,15 @@
+#!/bin/bash
+
+n=2                   # number of files per command line; adjust to taste
+
+readarray -t posts < <(printf %s\\n *.md | sort -r)
+
+for ((i=0; i < "${#posts[@]}"; i+=n)); do
+
+        echo "------------------------"
+        echo "${posts[@]:i:n}" 
+       # cat "${posts[@]:i:n}"
+        
+done
+
+

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+part1=$(date +"%y%m%d")
+part2=$(date +"%H%M%S")
+
+while [ $# -gt 0 ]; do
+
+echo "${part1}_${part2}_$1.md"
+#touch "${part1}_${part2}_$1.md"
+
+part2=
+
+    shift
+done
+
+
+for letter in {a..z} ; do
+  echo "$letter"
+done

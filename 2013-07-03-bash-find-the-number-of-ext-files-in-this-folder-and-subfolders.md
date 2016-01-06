@@ -1,0 +1,1 @@
+`find . -iname "*.ext" -printf . | wc -c`
