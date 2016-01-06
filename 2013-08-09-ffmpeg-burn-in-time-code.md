@@ -1,1 +1,0 @@
-<https://gist.github.com/reidransom/2630650>

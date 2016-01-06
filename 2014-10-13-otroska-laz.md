@@ -1,1 +1,0 @@
-<http://med.over.net/forum5/read.php?25,7302546>

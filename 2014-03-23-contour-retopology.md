@@ -1,1 +1,0 @@
-<http://cgcookie.com/blender/docs/contour-retopology/>

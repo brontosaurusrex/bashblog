@@ -1,1 +1,0 @@
-<http://envyandroid.com/archives/1165/fail2ban-wordpress-login-attacks>

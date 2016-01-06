@@ -1,1 +1,0 @@
-`ffmpeg -i input.mp4 -c:v copy -c:a libfdk_aac -vbr 3 output.mp4`

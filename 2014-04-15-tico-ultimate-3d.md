@@ -1,1 +1,0 @@
-<https://sketchfab.com/models/4df9d4d70fa044e885acccad4bed1f5a>

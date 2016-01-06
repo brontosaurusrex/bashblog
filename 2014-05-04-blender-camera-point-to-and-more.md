@@ -1,1 +1,0 @@
-<http://blender.stackexchange.com/questions/43/whats-the-quickest-easiest-way-to-point-the-camera-somewhere-in-blender>

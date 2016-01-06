@@ -1,1 +1,0 @@
-<http://howto-pages.org/ffmpeg/>

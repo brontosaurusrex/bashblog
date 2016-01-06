@@ -1,1 +1,0 @@
-<http://okusno.je/recept/testo-za-palacinke>

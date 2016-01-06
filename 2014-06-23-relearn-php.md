@@ -1,1 +1,0 @@
-<http://stackoverflow.com/questions/4143264/relearning-php-how-has-it-changed>

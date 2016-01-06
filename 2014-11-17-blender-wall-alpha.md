@@ -1,1 +1,0 @@
-<http://shrani.si/f/1S/wS/27Ymgnkg/crunchwirealpha5bw.png>
